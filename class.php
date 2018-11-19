@@ -268,7 +268,7 @@ class CBitrixBasketComponent extends CBitrixComponent
             )
         );
         while ($arItem = $dbItems->GetNext()) {
-        	$arItem["DETAIL_PAGE_URL"] = str_replace("//", "/", "/".$arItem["DETAIL_PAGE_URL"]);
+            $arItem["DETAIL_PAGE_URL"] = str_replace("//", "/", "/".$arItem["DETAIL_PAGE_URL"]);
             $dbDopElement = \Bitrix\Iblock\ElementTable::getList(
                 array(
                     "select" => array(
@@ -285,7 +285,7 @@ class CBitrixBasketComponent extends CBitrixComponent
                 $arItem["ADD_TO_BASKET"] = getAddToBasket($arItem["PRODUCT_ID"], $element["IBLOCK_ID"]);
             }
 
-			$arItem["PRICE"] = $arItem["CATALOG_PRICE"]["PRICE"];			
+            $arItem["PRICE"] = $arItem["CATALOG_PRICE"]["PRICE"];           
 
             $arItem['PROPS']           = array();
             $arBasketItems[$basketKey] = $arItem;
@@ -628,45 +628,45 @@ class CBitrixBasketComponent extends CBitrixComponent
 
         $tmp_add  = array();
         $tmp_two  = array();
- 		$isParent = false;
+        $isParent = false;
 
         foreach ($arResult["ITEMS"] as $type => $arItems) {
             foreach ($arItems as $k => $arItem) {
-            	if (count($tmp_add) <= 0) {
-            		$isParent = true;
-            	}
-            	elseif (!in_array($arItem["PRODUCT_ID"], $tmp_add)) {
-            		$isParent = true;
-            	} else {
-            		$isParent = false;
-            	}
-            	if ($isParent) {
-            		$tmp_add = $arItem["ADD_TO_BASKET"];
-            		$qParent = $arItem["QUANTITY"];
+                if (count($tmp_add) <= 0) {
+                    $isParent = true;
+                }
+                elseif (!in_array($arItem["PRODUCT_ID"], $tmp_add)) {
+                    $isParent = true;
+                } else {
+                    $isParent = false;
+                }
+                if ($isParent) {
+                    $tmp_add = $arItem["ADD_TO_BASKET"];
+                    $qParent = $arItem["QUANTITY"];
                     $arItem["PRICE_FORMATED"] = str_replace(" ","",$arItem["PRICE_FORMATED"]);
-            		$arItem["SUM"] = $arItem["PRICE_FORMATED"] * $qParent;
-            		$arItem["PRICE"] = $arItem["CATALOG_PRICE"]["PRICE"];            		
-            		$arResult["GRID"]["ROWS"][$arItem["ID"]] = $arItem;
+                    $arItem["SUM"] = $arItem["PRICE_FORMATED"] * $qParent;
+                    $arItem["PRICE"] = $arItem["CATALOG_PRICE"]["PRICE"];                   
+                    $arResult["GRID"]["ROWS"][$arItem["ID"]] = $arItem;
                     if (is_array($arItem["ADD_TO_BASKET"])) {
                         $ids_dubl = array_count_values($arItem["ADD_TO_BASKET"]);
                     }
-            		foreach ($ids_dubl as $k_dubl => $v_dubl) {
-            			$ids_dubl[$k_dubl] = $v_dubl * $arItem["QUANTITY"];
-            		}
-            	}
+                    foreach ($ids_dubl as $k_dubl => $v_dubl) {
+                        $ids_dubl[$k_dubl] = $v_dubl * $arItem["QUANTITY"];
+                    }
+                }
 
 
 
-            	if (isset($arItem["PRODUCT_ID"]) && in_array($arItem["PRODUCT_ID"], $tmp_two)) {
- 					continue;
-            	}
+                if (isset($arItem["PRODUCT_ID"]) && in_array($arItem["PRODUCT_ID"], $tmp_two)) {
+                    continue;
+                }
 
-            	if ($ids_dubl[$arItem["PRODUCT_ID"]] != $arItem["QUANTITY"]) {
+                if ($ids_dubl[$arItem["PRODUCT_ID"]] != $arItem["QUANTITY"]) {
                     if (is_array($arItem["ADD_TO_BASKET"])) {
                         $tmp_two = $arItem["ADD_TO_BASKET"];
                     }
 
-            	}
+                }
             }
         }
 
@@ -1426,7 +1426,7 @@ class CBitrixBasketComponent extends CBitrixComponent
                             $arItem["DELAY"] != $arFields["DELAY"] && in_array("DELAY", $this->columns)
                         )
                     ) {
-                    	CSaleBasket::Update($arItem["ID"], $arFields);
+                        CSaleBasket::Update($arItem["ID"], $arFields);
                     }
                 }
                 elseif ($arItem["DELAY"] == "Y" && $arItem["CAN_BUY"] == "Y")
